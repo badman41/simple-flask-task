@@ -1,0 +1,38 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% if data|length == 0 %}
+<h1>You need to increase the URL count</h1>
+{% else %}
+{% for key,value in data.items() %}
+{% if key != 'output' %}
+{% if key[3:] in names %}
+{% set number = names[key[-1]] %}
+{% else %}
+{% set number = key[3:]+'th' %}
+{% endif %}
+<form action="" method="GET">
+    <div class="input">
+        Enter {{ number }} URL :
+        <input name="{{ key }}"/>
+    </div>
+    <button type="submit">Submit {{ number }} URL</button>
+    {% if data[key] %}
+    <div>Your {{ number }} URL is {{ data[key] }}</div>
+    {% endif %}
+</form>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if data|length > 1 %}
+<form action="" method="POST">
+    <button type="submit">Compare</button>
+    {% if 'output' in data %}
+    <div>{{ data['output'] }}</div>
+    {% endif %}
+</form>
+{% endif %}
+</body>
+</html>
